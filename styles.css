@@ -1,0 +1,231 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap');
+
+:root {
+    --bg-color: #050505;
+    --term-bg: rgba(13, 13, 13, 0.92);
+    --primary: #00ff9d; /* Gensyn Green */
+    --primary-dim: rgba(0, 255, 157, 0.15);
+    --accent: #a34eff; /* Electric Purple */
+    --alert: #ff3355;
+    --text-sub: #6f7e85;
+    --border: rgba(0, 255, 157, 0.3);
+    --font-stack: 'Space Mono', monospace;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; outline: none; }
+
+body {
+    background-color: var(--bg-color);
+    color: var(--primary);
+    font-family: var(--font-stack);
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* --- ANIMATED BACKGROUND FX --- */
+#matrix-bg {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    opacity: 0.1;
+    z-index: 0;
+}
+
+.scanline {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.1));
+    background-size: 100% 4px;
+    pointer-events: none;
+    z-index: 10;
+    animation: scrollScanline 10s linear infinite;
+}
+
+.flicker-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 255, 157, 0.01);
+    z-index: 11;
+    pointer-events: none;
+    animation: flicker 0.15s infinite;
+}
+
+/* --- TERMINAL CONTAINER --- */
+.main-terminal {
+    position: relative;
+    z-index: 20;
+    width: 900px;
+    max-width: 95%;
+    height: 700px;
+    background: var(--term-bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    box-shadow: 0 0 60px rgba(0, 255, 157, 0.1);
+    display: flex;
+    flex-direction: column;
+    backdrop-filter: blur(12px);
+    
+    /* BOOT ANIMATION */
+    animation: bootUp 0.8s cubic-bezier(0.215, 0.610, 0.355, 1.000) forwards;
+    transform: scaleY(0); 
+    opacity: 0;
+}
+
+.term-head {
+    padding: 12px 20px;
+    border-bottom: 1px solid var(--border);
+    background: rgba(255,255,255,0.02);
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--text-sub);
+}
+
+.term-body {
+    flex: 1;
+    padding: 40px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    /* Content Slide Animation */
+    animation: slideIn 0.5s ease-out forwards;
+}
+
+/* --- TYPOGRAPHY --- */
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    line-height: 1;
+    text-transform: uppercase;
+    text-shadow: 0 0 10px var(--primary-dim);
+    letter-spacing: -1px;
+}
+
+p { color: var(--text-sub); margin-bottom: 30px; line-height: 1.6; max-width: 600px; }
+.highlight { color: #fff; font-weight: 700; text-shadow: 0 0 10px rgba(255,255,255,0.3); }
+.purple { color: var(--accent); text-shadow: 0 0 10px rgba(163, 78, 255, 0.3); }
+
+/* --- INPUTS & BUTTONS --- */
+.cmd-input {
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid var(--border);
+    color: #fff;
+    font-family: var(--font-stack);
+    font-size: 1.8rem;
+    width: 100%;
+    padding: 10px 0;
+    margin-bottom: 30px;
+    transition: 0.3s;
+}
+.cmd-input:focus { border-color: var(--primary); box-shadow: 0 10px 20px -10px var(--primary-dim); }
+
+.btn-action {
+    background: rgba(0, 255, 157, 0.05);
+    border: 1px solid var(--primary);
+    color: var(--primary);
+    padding: 18px 36px;
+    font-family: var(--font-stack);
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
+    letter-spacing: 1px;
+}
+.btn-action:hover {
+    background: var(--primary);
+    color: #000;
+    box-shadow: 0 0 40px var(--primary);
+    transform: translateY(-2px);
+}
+
+/* --- QUIZ UI --- */
+.progress-track {
+    width: 100%; height: 4px; background: #222;
+    margin-bottom: 30px;
+    border-radius: 2px;
+    overflow: hidden;
+}
+.progress-bar {
+    height: 100%; background: var(--primary);
+    width: 0%; transition: width 0.1s linear;
+    box-shadow: 0 0 10px var(--primary);
+}
+
+.options-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.opt-card {
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: rgba(0,0,0,0.2);
+    font-size: 0.9rem;
+    position: relative;
+    overflow: hidden;
+}
+.opt-card:hover { 
+    border-color: var(--primary); 
+    background: var(--primary-dim); 
+    transform: translateX(5px);
+}
+.opt-card.correct { 
+    border-color: var(--primary); 
+    background: var(--primary); 
+    color: #000; 
+    font-weight: bold; 
+    box-shadow: 0 0 20px var(--primary);
+}
+.opt-card.wrong { 
+    border-color: var(--alert); 
+    color: var(--alert); 
+    opacity: 0.6; 
+    animation: shake 0.4s;
+}
+
+.tag-pill {
+    display: inline-block;
+    font-size: 0.7rem;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    padding: 4px 8px;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    box-shadow: 0 0 10px rgba(163, 78, 255, 0.1);
+}
+
+/* --- UTILS --- */
+.hidden { display: none !important; }
+.center-content { justify-content: center; align-items: flex-start; }
+.text-center { text-align: center; align-items: center; }
+
+/* --- KEYFRAMES --- */
+@keyframes bootUp { 
+    0% { transform: scaleY(0.005) scaleX(0); opacity: 0.1; } 
+    50% { transform: scaleY(0.005) scaleX(1); opacity: 1; } 
+    100% { transform: scaleY(1) scaleX(1); opacity: 1; } 
+}
+@keyframes slideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes flicker { 0% { opacity: 0.9; } 5% { opacity: 0.8; } 10% { opacity: 0.9; } 100% { opacity: 0.9; } }
+@keyframes shake { 0% { transform: translateX(0); } 25% { transform: translateX(5px); } 50% { transform: translateX(-5px); } 75% { transform: translateX(5px); } 100% { transform: translateX(0); } }
+@keyframes scrollScanline { 0% { transform: translateY(0); } 100% { transform: translateY(100vh); } }
+
+/* Mobile */
+@media(max-width: 768px) {
+    .options-grid { grid-template-columns: 1fr; }
+    .main-terminal { height: 100vh; border: none; border-radius: 0; }
+    h1 { font-size: 1.8rem; }
+}
+

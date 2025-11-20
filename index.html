@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gensyn Protocol | RL Swarm Access</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <canvas id="matrix-bg"></canvas>
+    <div class="scanline"></div>
+    <div class="flicker-overlay"></div>
+
+    <div class="main-terminal">
+        <div class="term-head">
+            <span>SYS.NET.V3 // RL_SWARM</span>
+            <span id="sys-time">00:00:00</span>
+        </div>
+
+        <div id="view-login" class="term-body center-content">
+            <div class="tag-pill">Authentication</div>
+            <h1>IDENTIFY YOURSELF</h1>
+            <p>Enter your handle to access the Gensyn global compute layer.</p>
+            
+            <input type="text" id="username" class="cmd-input" placeholder="Username..." autocomplete="off">
+            <button class="btn-action" onclick="authenticate()">> INITIALIZE HANDSHAKE</button>
+        </div>
+
+        <div id="view-intro" class="term-body hidden center-content">
+            <h1>WELCOME, <span id="display-name" class="purple">USER</span>.</h1>
+            <p>You are entering the <span class="highlight">RL Swarm</span>. We will test your knowledge on:</p>
+            <ul style="color:var(--text-sub); margin-bottom:30px; list-style:none; line-height:1.8;">
+                <li>> <strong>Verde</strong> & <strong>Pinpoint</strong> (Verification)</li>
+                <li>> <strong>Sapo</strong> (Swarm Sampling)</li>
+                <li>> <strong>CodeAssist</strong> (Local Privacy)</li>
+                <li>> <strong>Real-World Applications</strong> (Cost & Utilization)</li>
+            </ul>
+            <button class="btn-action" onclick="startQuiz()">> EXECUTE PROTOCOL</button>
+        </div>
+
+        <div id="view-quiz" class="term-body hidden">
+            <div class="progress-track"><div id="timer-bar" class="progress-bar"></div></div>
+            
+            <div id="quiz-block">
+                <span id="q-cat" class="tag-pill">Category</span>
+                <h2 id="q-text" style="font-size:1.4rem; margin-bottom:25px; min-height:60px; animation: slideIn 0.3s ease;">Loading Question Data...</h2>
+                <div id="options-container" class="options-grid">
+                    </div>
+            </div>
+        </div>
+
+        <div id="view-results" class="term-body hidden text-center">
+            <h1 style="font-size: 3rem; margin-bottom: 10px;">AUDIT COMPLETE</h1>
+            
+            <div style="margin: 20px 0;">
+                <p style="font-size:1.2rem; color: var(--text-sub);">FINAL SCORE</p>
+                <div id="score-display" style="font-size: 4rem; color: var(--primary); font-weight:bold; text-shadow: 0 0 30px var(--primary-dim);">0/12</div>
+            </div>
+
+            <div style="background: rgba(163, 78, 255, 0.05); border: 1px solid var(--accent); padding: 20px; margin: 20px 0; max-width: 600px;">
+                <p id="roast-msg" style="color: #fff; font-style: italic; margin: 0; font-size: 1.1rem;">
+                    </p>
+            </div>
+
+            <div style="margin-top: 20px;">
+                <button class="btn-action" onclick="location.reload()">> RESTART NODE</button>
+                <br><br>
+                <a href="https://gensyn.ai/research" target="_blank" style="color: #666; font-size: 0.8rem; text-decoration: none; border-bottom: 1px dotted #666;">Read the Whitepaper</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
